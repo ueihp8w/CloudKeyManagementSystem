@@ -49,7 +49,7 @@
 
 Nền tảng Cloud KMS cho phép quản lý các key mã hóa ở trong một dịch vụ cloud trung tâm để sử dụng trực tiếp các tài nguyên và ứng dụng của Google Cloud hoặc từ cloud khác.
 
-![https://cloud.google.com/static/docs/security/key-management-deep-dive/images/kms-source-materials.svg](https://cloud.google.com/static/docs/security/key-management-deep-dive/images/kms-source-materials.svg)
+![KMS Source Materials](https://github.com/ueihp8w/CloudKeyManagementSystem/blob/main/Sources/kms-source-materials.png)
 
 - Default encryption: tất cả dữ liệu được lưu trữ bởi Google sẽ được mã hóa ở storage layer bằng AES-256. Google khởi tạo và quản lý keys cho default encryption, khách hàng không có quyền truy cập đến các keys hay kiểm soát xoay vòng và quản lý khóa. Default encryption keys có thể được chia sẻ giữa các khách hàng
 - Cloud KMS with software-generated keys: cho phép người dùng kiểm soát keys được khởi tạo bởi Google, cung cấp tính linh hoạt với việc mã hóa và ký bằng khóa đối xứng hoặc bất đối xứng mà người dùng có thể kiểm soát
@@ -61,7 +61,7 @@ Nền tảng Cloud KMS cho phép quản lý các key mã hóa ở trong một d�
 
 ## Key rings, keys, and key versions
 
-![https://cloud.google.com/static/docs/security/key-management-deep-dive/images/kms-keys-keyrings.svg](https://cloud.google.com/static/docs/security/key-management-deep-dive/images/kms-keys-keyrings.svg)
+![KMS Keys Keyrings](https://github.com/ueihp8w/CloudKeyManagementSystem/blob/main/Sources/kms-keys-keyrings.png)
 
 - Key: là một thực thể được đặt tên đại diện cho khóa mật mã, bao gồm một hoặc nhiều các key versions, cùng với các metadata cho mỗi key. Một key chỉ tồn tại chính xác trên một keyring gắn với một địa điểm cụ thể. Người dùng có thể cho phép hoặc từ chối truy cập đến các keys thông qua IAM (Identity and Access Management). Không thể quản lý truy cập đến một key version.
 - Key versions: mỗi version của key bao gồm các thành phần được sử dụng để mã hóa và ký. Mỗi version được biểu diễn bởi 1 số tự nhiên bắt đầu bằng 1. Khi xoay vòng key, một key version mới được tạo với key material mới. Key đối xứng sẽ có một primary version và mặc định nó sẽ dùng để mã hóa. Khi giải mã với key đối xứng, Cloud KMS sẽ tự động xác định key version nào cần dùng để giải mã.
@@ -80,7 +80,7 @@ Nền tảng Cloud KMS cho phép quản lý các key mã hóa ở trong một d�
 
 - Hình dưới đây thể hiện một vài lớp mã hóa thường được sử dụng để bảo vệ dữ liệu người dùng trong các trung tâm dữ liệu sản phẩm của Google được áp dụng với cả mã hóa hệ thống files phi tập trung hoặc database, mã hóa file lưu trữ đối với người dùng, và cả mã hóa các thiết bị lưu trữ đối với các trung tâm dữ liệu sản phẩm.
 
-![https://cloud.google.com/static/docs/security/encryption/default-encryption/resources/encryption-layers.svg](https://cloud.google.com/static/docs/security/encryption/default-encryption/resources/encryption-layers.svg)
+![Encryption Layers](https://github.com/ueihp8w/CloudKeyManagementSystem/blob/main/Sources/encryption-layers.png)
 
 ### Encryption at the hardware and infrastructure layer
 
@@ -89,7 +89,7 @@ Nền tảng Cloud KMS cho phép quản lý các key mã hóa ở trong một d�
 - Mỗi data chunk có một định danh độc nhất. Access control lists (ACLs) giúp đảm bảo rằng mỗi chunk sẽ chỉ được giải mã bởi các dịch vụ của Google hoạt động với các vai trò đã được ủy quyền. Các dịch vụ này chỉ được cấp quyền truy cập tại thời điểm đó, điều này giúp ngăn các truy cập trái phép, tăng cường bảo mật và quyền riêng tư.
 - Mỗi chunk được phân phối trên các hệ thống lưu trữ và được sao chép ở dạng bản mã để sao lưu và khôi phục. Attacker muốn truy cập vào dữ liệu khách hàng sẽ cần biết 2 điều: tất cả các chunks tương ứng với data muốn biết và tất cả các keys tương ứng với các chunks đó.
 
-![https://cloud.google.com/static/docs/security/encryption/default-encryption/resources/data-upload-chunks.svg](https://cloud.google.com/static/docs/security/encryption/default-encryption/resources/data-upload-chunks.svg)
+![Data Upload Chunks](https://github.com/ueihp8w/CloudKeyManagementSystem/blob/main/Sources/data-upload-chunks.png)
 
 ### Encryption at the storage device layer
 
@@ -129,15 +129,15 @@ Nền tảng Cloud KMS cho phép quản lý các key mã hóa ở trong một d�
         - Là quá trình mã hóa một khóa bằng một khóa khác.
         - Hình sau thể hiện các levels chính của một phân cấp khóa:
         
-        ![https://cloud.google.com/static/kms/images/resources2.png](https://cloud.google.com/static/kms/images/resources2.png)
+        ![Key Ring](https://github.com/ueihp8w/CloudKeyManagementSystem/blob/main/Sources/key-ring.png)
         
         ### How to encrypt data using envelope encryption
         
-        ![https://cloud.google.com/static/kms/images/envelope_encryption_store.svg](https://cloud.google.com/static/kms/images/envelope_encryption_store.svg)
+        ![Envelope Encryption Store](https://github.com/ueihp8w/CloudKeyManagementSystem/blob/main/Sources/envelope_encryption_store.png)
         
         ### How to decrypt data using envelope encryption
         
-        ![https://cloud.google.com/static/kms/images/envelope_encryption_retrieve.svg](https://cloud.google.com/static/kms/images/envelope_encryption_retrieve.svg)
+        ![Envelope Encryption Retrieve](https://github.com/ueihp8w/CloudKeyManagementSystem/blob/main/Sources/envelope_encryption_retrieve.png)
         
 - Keystore có thể tự động xoay vòng KEKs sau một khoảng thời gian nhất định, sử dụng thư viện mật mã thông dụng của Google để tạo key mới. Key mới sẽ trở thành primary version của key đó, các key cũ sẽ là previous version. Primary key sẽ được dùng để mã hóa và các previous keys được dùng để giải mã.
 - KEK được sao lưu cho mục đích khắc phục thảm họa và chúng có thể khôi phục vô thời hạn.
@@ -147,7 +147,7 @@ Nền tảng Cloud KMS cho phép quản lý các key mã hóa ở trong một d�
 
 - Quá trình service truy cập đến các data chunks sẽ diễn ra như sau:
     
-    ![https://cloud.google.com/static/docs/security/encryption/default-encryption/resources/process-encrypted-chunks.svg](https://cloud.google.com/static/docs/security/encryption/default-encryption/resources/process-encrypted-chunks.svg)
+    ![Process Encrypted Chunks](https://github.com/ueihp8w/CloudKeyManagementSystem/blob/main/Sources/process-encrypted-chunks.png)
     
     - Service gọi đến storage system cho dữ liệu cần lấy
     - Storage system xác định những chunks chứa dữ liệu đó (chunk IDs và nơi chúng được lưu)
@@ -165,11 +165,11 @@ Nền tảng Cloud KMS cho phép quản lý các key mã hóa ở trong một d�
 - Khi một bản mới của root keystore master key distributor bắt đầu, nó sẽ được cấu hình với một danh sách các hostname của các bản distributor đang chạy. Bản distributor mới sau đó có thể nhận được các root keystore master key từ các bản đang chạy. Các root keystore master key chỉ tồn tại trong RAM của một số máy được bảo mật đặc biệt.
 - Để giải quyết tình huống trong đó tất cả các bản của root keystore master key distributor trong một khu vực khởi động lại đồng thời, root keystore master key cũng được sao lưu trên các thiết bị phần cứng an toàn được lưu trữ trong két vật lý ở các khu vực được bảo mật cao ở nhiều vị trí phân bổ theo địa lý. Bản sao lưu này chỉ được dùng đến nếu tất cả các bản distributor trong một khu vực ngừng hoạt động cùng một lúc. Chỉ có ít hơn 100 nhân viên của Google có thể truy cập vào những két sắt này.
 
-![https://cloud.google.com/static/docs/security/encryption/default-encryption/resources/process-encryption-key-hierarchy.svg](https://cloud.google.com/static/docs/security/encryption/default-encryption/resources/process-encryption-key-hierarchy.svg)
+![Process Encryption Key Hierarchy](https://github.com/ueihp8w/CloudKeyManagementSystem/blob/main/Sources/process-encryption-key-hierarchy.png)
 
 ## Software key hierarchy
 
-![https://cloud.google.com/static/docs/security/key-management-deep-dive/images/key-source-hierarchy.svg](https://cloud.google.com/static/docs/security/key-management-deep-dive/images/key-source-hierarchy.svg)
+![Key Source Hierarchy](https://github.com/ueihp8w/CloudKeyManagementSystem/blob/main/Sources/key-source-hierarchy.png)
 
 - Dữ liệu được chia thành các đoạn và được mã hóa bằng DEKs
 - DEKs được mã hóa bằng KEKs và được lưu cùng với dữ liệu
@@ -183,7 +183,7 @@ Nền tảng Cloud KMS cho phép quản lý các key mã hóa ở trong một d�
 
 # Cloud KMS platform overview
 
-![https://cloud.google.com/static/docs/security/key-management-deep-dive/images/cloud-kms-platform.svg](https://cloud.google.com/static/docs/security/key-management-deep-dive/images/cloud-kms-platform.svg)
+![Cloud KMS Platform](https://github.com/ueihp8w/CloudKeyManagementSystem/blob/main/Sources/cloud-kms-platform.png)
 
 - Quản trị viên truy cập vào dịch vụ quản lý khóa bằng cách sử dụng Google Cloud Console (gcloud command-line tool) hoặc thông qua các ứng dụng có tích hợp REST hoặc gRPC APIs.
 - Các ứng dụng có thể sử dụng các dịch vụ của Google đã enabled CMEK (customer-managed encryption keys). CMEK sau đó sử dụng Cloud KMS API. Cloud KMS API cho phép người dùng có thể sử dụng các khóa phần mềm (Cloud KMS) hoặc phần cứng (Cloud HSM). Cả 2 loại khóa này đều được áp dụng các biện pháp back-up bảo vệ của Google.
